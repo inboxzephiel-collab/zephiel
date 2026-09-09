@@ -546,6 +546,16 @@ app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.Health
                     "or set Database:AutoMigrate=true to migrate on startup.");
             }
         }
+
+        // Order numbers are handed out by a Postgres sequence (see OrderNumberService), but that
+        // sequence isn't part of the EF model — EnsureCreated/migrations don't create it — so
+        // checkout 500s ("relation order_number_seq does not exist") on a fresh DB. Create it
+        // idempotently here. START 30001 matches the non-Postgres count-based fallback.
+        if (db.Database.IsNpgsql())
+        {
+            await db.Database.ExecuteSqlRawAsync(
+                "CREATE SEQUENCE IF NOT EXISTS order_number_seq START WITH 30001 MINVALUE 30001;");
+        }
     }
     catch (Exception ex)
     {

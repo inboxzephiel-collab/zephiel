@@ -207,7 +207,7 @@
             <div id="lightbox-stage" class="w-full h-full flex items-center justify-center p-4">
                 <img id="lightbox-img" src="" alt="@Model.Name" class="max-w-full max-h-full object-contain" />
             </div>
-            @if (Model.ImageUrls.Count > 1)
+            @if (Model.ImageUrls is { Count: > 1 })
             {
                 <button type="button" id="lightbox-prev" class="absolute left-1 top-1/2 -translate-y-1/2 text-white p-3" aria-label="Previous image">
                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/></svg>

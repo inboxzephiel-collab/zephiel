@@ -225,7 +225,7 @@ public class NihaoImportService
     public async Task<NihaoPreview> PreviewAsync(string url)
     {
         var pv = new NihaoPreview { SourceUrl = (url ?? "").Trim() };
-        var (data, err) = await FetchExtractAsync(url);
+        var (data, err) = await FetchExtractAsync(pv.SourceUrl);
         if (data == null) { pv.Error = err; return pv; }
 
         var (fx, markup) = await RatesAsync();
